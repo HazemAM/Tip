@@ -1,0 +1,119 @@
+Tip = function(element){
+	var self = this;
+	
+	self.elem  = element || document.getElementById('tip');
+	self.hover = false;
+	self.delay = parseInt(self.elem.dataset.duration) || 3500;
+	self.show;
+	self.prev;
+	self.mode  = null;
+	
+	//Listeners:
+	self.elem.onmouseover = function(e){
+		self.hover = true;
+		clearTimeout(self.show); self.show=null;
+	};
+
+	self.elem.onmouseout = function(e){
+		self.hover = false;
+		self.show = setTimeout(self.fadeout, self.delay/2);
+
+		if(self.prev != null){	//Tip easter
+			self.elem.innerHTML = self.prev;
+			self.elem.setAttribute('class','in-move');
+			self.adjustPos();
+			self.prev = null;
+		}
+	};
+
+	self.elem.onclick = function(e){
+		if(self.prev == null){	//easter thing
+			self.prev = self.elem.innerHTML;
+			self.elem.innerHTML = 'Tips tell you what is happening here';
+			self.elem.setAttribute('class','in-move');
+			self.adjustPos();
+		}
+	};
+
+	window.addEventListener('resize', function(e){
+		self.elem.setAttribute('class','');
+		self.adjustPos();
+	});
+
+	//Functions:
+	/*self.getElement = function(){
+		var exist = document.getElementById('tip');
+		if(exist)
+			return exist;
+		else{
+			var newElem = document.createElement('div');
+			newElem.id = 'tip';
+			newElem.dir = 'auto';
+			document.body.appendChild(newElem);
+			return newElem;
+		}
+	}*/
+	
+	self.adjustPos = function(){
+		selfWidth = (window.innerWidth/2) - (self.elem.offsetWidth/2);
+		self.elem.style.left = selfWidth.toString() + 'px';
+	}
+
+	self.fadeout = function(){
+		self.elem.setAttribute('class','fadeout');
+		self.elem.style.opacity = '0';
+		self.mode = null;
+	}
+
+	self.echo = function(text, mode){
+		if(self.elem.style.opacity=='0' || self.elem.style.opacity==''){
+			self.elem.setAttribute('class','fadein');
+		}
+		else{
+			self.elem.setAttribute('class','in-move');
+			if(text==self.elem.innerHTML){
+				self.elem.setAttribute('class','in-again');
+				setTimeout(function(){
+					self.elem.classList.remove('in-again');
+				}, 200);
+			}
+		}
+
+		clearTimeout(self.show); self.show=null;
+		self.elem.innerHTML = text.toString();
+
+		self.elem.style.opacity = '1';
+		if(!self.hover){
+			self.show = setTimeout(self.fadeout, self.delay);
+		}
+
+		self.prev = null;
+		self.mode = mode?mode:null;
+
+		self.adjustPos();
+	}
+
+	self.title = function(text){
+		self.elem.title = text;
+	}
+
+	self.forceHide = function(){
+		if(self.show){
+			clearTimeout(self.show); self.show=null;
+			self.fadeout();
+		}
+	}
+
+	self.updateText = function(text){
+		if(self.show)
+			self.elem.innerHTML = text.toString();
+	}
+	
+	self.getText = function(){
+		return self.elem.innerHTML;
+	}
+	
+	self.getMode = function(){
+		return self.mode;
+	}
+}
