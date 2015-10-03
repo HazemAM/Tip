@@ -5,6 +5,7 @@ Tip = function(element){
 	self.hover = false;
 	self.delay = parseInt(self.elem.dataset.duration) || 3500;
 	self.show;
+	self.shown;
 	self.prev;
 	self.mode  = null;
 	
@@ -63,6 +64,7 @@ Tip = function(element){
 		self.elem.setAttribute('class','fadeout');
 		self.elem.style.opacity = '0';
 		self.mode = null;
+		self.shown = false;
 	}
 
 	self.echo = function(text, mode){
@@ -89,6 +91,7 @@ Tip = function(element){
 
 		self.prev = null;
 		self.mode = mode?mode:null;
+		self.shown = true;
 
 		self.adjustPos();
 	}
@@ -105,8 +108,10 @@ Tip = function(element){
 	}
 
 	self.updateText = function(text){
-		if(self.show)
+		if(self.shown && !self.prev)
 			self.elem.innerHTML = text.toString();
+		else if(self.shown)
+			self.prev = text;
 	}
 	
 	self.getText = function(){
