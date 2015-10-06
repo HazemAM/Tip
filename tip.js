@@ -67,6 +67,10 @@ Tip = function(element){
 		self.shown = false;
 	}
 
+	/*
+	 * The main function. Shows a new tip to the user, and overrides
+	 * the previous tip if any.
+	*/
 	self.echo = function(text, mode){
 		if(self.elem.style.opacity=='0' || self.elem.style.opacity==''){
 			self.elem.setAttribute('class','fadein');
@@ -100,6 +104,9 @@ Tip = function(element){
 		self.elem.title = text;
 	}
 
+	/*
+	 * Force the tip to hide even if the timer isn't over yet.
+	*/
 	self.forceHide = function(){
 		if(self.show){
 			clearTimeout(self.show); self.show=null;
@@ -107,6 +114,11 @@ Tip = function(element){
 		}
 	}
 
+	/*
+	 * Update the tip text without renewing the timer.
+	 * Works best with `Tip.shown`, for regularly updating
+	 * very-time-sensitive data while the tip is shown to the user.
+	*/
 	self.updateText = function(text){
 		if(self.shown && !self.prev)
 			self.elem.innerHTML = text.toString();
