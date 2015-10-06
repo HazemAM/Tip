@@ -19,7 +19,7 @@ Tip = function(element){
 		self.hover = false;
 		self.show = setTimeout(self.fadeout, self.delay/2);
 
-		if(self.prev != null){	//Tip easter
+		if(self.isClicked()){	//Tip easter
 			self.elem.innerHTML = self.prev;
 			self.elem.setAttribute('class','in-move');
 			self.adjustPos();
@@ -28,7 +28,7 @@ Tip = function(element){
 	};
 
 	self.elem.onclick = function(e){
-		if(self.prev == null){	//easter thing
+		if(!self.isClicked()){	//easter thing
 			self.prev = self.elem.innerHTML;
 			self.elem.innerHTML = 'Tips tell you what is happening here';
 			self.elem.setAttribute('class','in-move');
@@ -120,7 +120,7 @@ Tip = function(element){
 	 * very-time-sensitive data while the tip is shown to the user.
 	*/
 	self.updateText = function(text){
-		if(self.shown && !self.prev)
+		if(self.shown && !self.isClicked())
 			self.elem.innerHTML = text.toString();
 		else if(self.shown)
 			self.prev = text;
@@ -132,5 +132,9 @@ Tip = function(element){
 	
 	self.getMode = function(){
 		return self.mode;
+	}
+	
+	self.isClicked = function(){
+		return self.prev != null;
 	}
 }
