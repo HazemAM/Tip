@@ -1,7 +1,7 @@
 Tip = function(id, delay){
 	var self = this;
 	
-	self.elem  = document.getElementById(id); //TODO: Use self.getElement(id ? id : 'tip').
+	self.elem  = self.getElement(id ? id : 'tip');
 	self.hover = false;
 	self.delay = delay || parseInt(self.elem.dataset.duration) || 3500;
 	self.shown = false; //The tip is currently shown to the user.
@@ -18,7 +18,7 @@ Tip = function(id, delay){
 
 	self.elem.onmouseout = function(e){
 		self.hover = false;
-		self.timeoutId = window.setTimeout(self.hide, self.delay/2);
+		self.timeoutId = window.setTimeout(self.hide.bind(self), self.delay/2);
 
 		if(self.isClicked()){	//Tip easter
 			self.elem.innerHTML = self.prev;
@@ -41,9 +41,10 @@ Tip = function(id, delay){
 		self.elem.setAttribute('class','');
 		self.adjustPos();
 	});
+}
 
 	//Functions:
-	self.getElement = function(id){
+	Tip.prototype.getElement = function(id){
 		var exist = document.getElementById(id);
 		if(exist)
 			return exist;
@@ -55,13 +56,13 @@ Tip = function(id, delay){
 			return newElem;
 		}
 	}
-	
-	self.adjustPos = function(){
-		selfWidth = (window.innerWidth/2) - (self.elem.offsetWidth/2);
+
+	Tip.prototype.adjustPos = function(){
+		var selfWidth = (window.innerWidth/2) - (self.elem.offsetWidth/2);
 		self.elem.style.left = selfWidth.toString() + 'px';
 	}
 
-	self.hide = function(){
+	Tip.prototype.hide = function(){
 		self.elem.setAttribute('class','fadeout');
 		self.elem.style.opacity = '0';
 		self.mode = null;
@@ -72,7 +73,7 @@ Tip = function(id, delay){
 	 * The main function. Shows a new tip to the user, and overrides
 	 * the previous tip if any.
 	*/
-	self.echo = function(text, mode){
+	Tip.prototype.echo = function(text, mode){
 		if(self.elem.style.opacity=='0' || self.elem.style.opacity==''){
 			self.elem.setAttribute('class','fadein');
 		}
@@ -82,7 +83,7 @@ Tip = function(id, delay){
 				self.elem.setAttribute('class','in-again');
 				window.setTimeout(function(){
 					self.elem.classList.remove('in-again');
-				}, 200);
+				}.bind(self), 200);
 			}
 		}
 
@@ -91,7 +92,7 @@ Tip = function(id, delay){
 
 		self.elem.style.opacity = '1';
 		if(!self.hover){
-			self.timeoutId = window.setTimeout(self.hide, self.delay);
+			self.timeoutId = window.setTimeout(self.hide.bind(self), self.delay);
 		}
 
 		self.prev = null;
@@ -101,14 +102,14 @@ Tip = function(id, delay){
 		self.adjustPos();
 	}
 
-	self.title = function(text){
+	Tip.prototype.title = function(text){
 		self.elem.title = text;
 	}
 
 	/*
 	 * Force the tip to hide even if the timer isn't over yet.
 	*/
-	self.forceHide = function(){
+	Tip.prototype.forceHide = function(){
 		if(self.timeoutId){
 			window.clearTimeout(self.timeoutId); self.timeoutId=null;
 			self.hide();
@@ -120,22 +121,21 @@ Tip = function(id, delay){
 	 * Works best with `Tip.shown`, for regularly updating
 	 * very-time-sensitive data while the tip is shown to the user.
 	*/
-	self.updateText = function(text){
+	Tip.prototype.updateText = function(text){
 		if(self.shown && !self.isClicked())
 			self.elem.innerHTML = text.toString();
 		else if(self.shown)
 			self.prev = text;
 	}
-	
-	self.getText = function(){
+
+	Tip.prototype.getText = function(){
 		return self.elem.innerHTML;
 	}
-	
-	self.getMode = function(){
+
+	Tip.prototype.getMode = function(){
 		return self.mode;
 	}
-	
-	self.isClicked = function(){
+
+	Tip.prototype.isClicked = function(){
 		return self.prev != null;
 	}
-}
