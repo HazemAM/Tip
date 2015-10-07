@@ -58,15 +58,15 @@ Tip = function(id, delay){
 	}
 
 	Tip.prototype.adjustPos = function(){
-		var selfWidth = (window.innerWidth/2) - (self.elem.offsetWidth/2);
-		self.elem.style.left = selfWidth.toString() + 'px';
+		var selfWidth = (window.innerWidth/2) - (this.elem.offsetWidth/2);
+		this.elem.style.left = selfWidth.toString() + 'px';
 	}
 
 	Tip.prototype.hide = function(){
-		self.elem.setAttribute('class','fadeout');
-		self.elem.style.opacity = '0';
-		self.mode = null;
-		self.shown = false;
+		this.elem.setAttribute('class','fadeout');
+		this.elem.style.opacity = '0';
+		this.mode = null;
+		this.shown = false;
 	}
 
 	/*
@@ -74,45 +74,45 @@ Tip = function(id, delay){
 	 * the previous tip if any.
 	*/
 	Tip.prototype.echo = function(text, mode){
-		if(self.elem.style.opacity=='0' || self.elem.style.opacity==''){
-			self.elem.setAttribute('class','fadein');
+		if(this.elem.style.opacity=='0' || this.elem.style.opacity==''){
+			this.elem.setAttribute('class','fadein');
 		}
 		else{
-			self.elem.setAttribute('class','in-move');
-			if(text==self.elem.innerHTML){
-				self.elem.setAttribute('class','in-again');
+			this.elem.setAttribute('class','in-move');
+			if(text==this.elem.innerHTML){
+				this.elem.setAttribute('class','in-again');
 				window.setTimeout(function(){
-					self.elem.classList.remove('in-again');
-				}.bind(self), 200);
+					this.elem.classList.remove('in-again');
+				}.bind(this), 200);
 			}
 		}
 
-		window.clearTimeout(self.timeoutId); self.timeoutId=null;
-		self.elem.innerHTML = text.toString();
+		window.clearTimeout(this.timeoutId); this.timeoutId=null;
+		this.elem.innerHTML = text.toString();
 
-		self.elem.style.opacity = '1';
-		if(!self.hover){
-			self.timeoutId = window.setTimeout(self.hide.bind(self), self.delay);
+		this.elem.style.opacity = '1';
+		if(!this.hover){
+			this.timeoutId = window.setTimeout(this.hide.bind(this), this.delay);
 		}
 
-		self.prev = null;
-		self.mode = mode?mode:null;
-		self.shown = true;
+		this.prev = null;
+		this.mode = mode?mode:null;
+		this.shown = true;
 
-		self.adjustPos();
+		this.adjustPos();
 	}
 
 	Tip.prototype.title = function(text){
-		self.elem.title = text;
+		this.elem.title = text;
 	}
 
 	/*
 	 * Force the tip to hide even if the timer isn't over yet.
 	*/
 	Tip.prototype.forceHide = function(){
-		if(self.timeoutId){
-			window.clearTimeout(self.timeoutId); self.timeoutId=null;
-			self.hide();
+		if(this.timeoutId){
+			window.clearTimeout(this.timeoutId); this.timeoutId=null;
+			this.hide();
 		}
 	}
 
@@ -122,20 +122,20 @@ Tip = function(id, delay){
 	 * very-time-sensitive data while the tip is shown to the user.
 	*/
 	Tip.prototype.updateText = function(text){
-		if(self.shown && !self.isClicked())
-			self.elem.innerHTML = text.toString();
-		else if(self.shown)
-			self.prev = text;
+		if(this.shown && !this.isClicked())
+			this.elem.innerHTML = text.toString();
+		else if(this.shown)
+			this.prev = text;
 	}
 
 	Tip.prototype.getText = function(){
-		return self.elem.innerHTML;
+		return this.elem.innerHTML;
 	}
 
 	Tip.prototype.getMode = function(){
-		return self.mode;
+		return this.mode;
 	}
 
 	Tip.prototype.isClicked = function(){
-		return self.prev != null;
+		return this.prev != null;
 	}
