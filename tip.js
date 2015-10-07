@@ -1,9 +1,9 @@
-Tip = function(element){
+Tip = function(id, delay){
 	var self = this;
 	
-	self.elem  = element || document.getElementById('tip');
+	self.elem  = document.getElementById(id); //TODO: Use self.getElement(id ? id : 'tip').
 	self.hover = false;
-	self.delay = parseInt(self.elem.dataset.duration) || 3500;
+	self.delay = delay || parseInt(self.elem.dataset.duration) || 3500;
 	self.shown = false; //The tip is currently shown to the user.
 	self.prev  = null;  //Holding the original tip string while clicked.
 	self.mode  = null;
@@ -43,18 +43,18 @@ Tip = function(element){
 	});
 
 	//Functions:
-	/*self.getElement = function(){
-		var exist = document.getElementById('tip');
+	self.getElement = function(id){
+		var exist = document.getElementById(id);
 		if(exist)
 			return exist;
 		else{
 			var newElem = document.createElement('div');
-			newElem.id = 'tip';
+			newElem.id = id;
 			newElem.dir = 'auto';
 			document.body.appendChild(newElem);
 			return newElem;
 		}
-	}*/
+	}
 	
 	self.adjustPos = function(){
 		selfWidth = (window.innerWidth/2) - (self.elem.offsetWidth/2);
