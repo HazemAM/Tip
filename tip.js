@@ -43,99 +43,99 @@ Tip = function(id, delay){
 	});
 }
 
-	//Functions:
-	Tip.prototype.getElement = function(id){
-		var exist = document.getElementById(id);
-		if(exist)
-			return exist;
-		else{
-			var newElem = document.createElement('div');
-			newElem.id = id;
-			newElem.dir = 'auto';
-			document.body.appendChild(newElem);
-			return newElem;
+//Functions:
+Tip.prototype.getElement = function(id){
+	var exist = document.getElementById(id);
+	if(exist)
+		return exist;
+	else{
+		var newElem = document.createElement('div');
+		newElem.id = id;
+		newElem.dir = 'auto';
+		document.body.appendChild(newElem);
+		return newElem;
+	}
+}
+
+Tip.prototype.adjustPos = function(){
+	var selfWidth = (window.innerWidth/2) - (this.elem.offsetWidth/2);
+	this.elem.style.left = selfWidth.toString() + 'px';
+}
+
+Tip.prototype.hide = function(){
+	this.elem.setAttribute('class','fadeout');
+	this.elem.style.opacity = '0';
+	this.mode = null;
+	this.shown = false;
+}
+
+/*
+ * The main function. Shows a new tip to the user, and overrides
+ * the previous tip if any.
+*/
+Tip.prototype.echo = function(text, mode){
+	if(this.elem.style.opacity=='0' || this.elem.style.opacity==''){
+		this.elem.setAttribute('class','fadein');
+	}
+	else{
+		this.elem.setAttribute('class','in-move');
+		if(text==this.elem.innerHTML){
+			this.elem.setAttribute('class','in-again');
+			window.setTimeout(function(){
+				this.elem.classList.remove('in-again');
+			}.bind(this), 200);
 		}
 	}
 
-	Tip.prototype.adjustPos = function(){
-		var selfWidth = (window.innerWidth/2) - (this.elem.offsetWidth/2);
-		this.elem.style.left = selfWidth.toString() + 'px';
+	window.clearTimeout(this.timeoutId); this.timeoutId=null;
+	this.elem.innerHTML = text.toString();
+
+	this.elem.style.opacity = '1';
+	if(!this.hover){
+		this.timeoutId = window.setTimeout(this.hide.bind(this), this.delay);
 	}
 
-	Tip.prototype.hide = function(){
-		this.elem.setAttribute('class','fadeout');
-		this.elem.style.opacity = '0';
-		this.mode = null;
-		this.shown = false;
-	}
+	this.prev = null;
+	this.mode = mode?mode:null;
+	this.shown = true;
 
-	/*
-	 * The main function. Shows a new tip to the user, and overrides
-	 * the previous tip if any.
-	*/
-	Tip.prototype.echo = function(text, mode){
-		if(this.elem.style.opacity=='0' || this.elem.style.opacity==''){
-			this.elem.setAttribute('class','fadein');
-		}
-		else{
-			this.elem.setAttribute('class','in-move');
-			if(text==this.elem.innerHTML){
-				this.elem.setAttribute('class','in-again');
-				window.setTimeout(function(){
-					this.elem.classList.remove('in-again');
-				}.bind(this), 200);
-			}
-		}
+	this.adjustPos();
+}
 
+Tip.prototype.title = function(text){
+	this.elem.title = text;
+}
+
+/*
+ * Force the tip to hide even if the timer isn't over yet.
+*/
+Tip.prototype.forceHide = function(){
+	if(this.timeoutId){
 		window.clearTimeout(this.timeoutId); this.timeoutId=null;
+		this.hide();
+	}
+}
+
+/*
+ * Update the tip text without renewing the timer.
+ * Works best with `Tip.shown`, for regularly updating
+ * very-time-sensitive data while the tip is shown to the user.
+*/
+Tip.prototype.updateText = function(text){
+	if(this.shown && !this.isClicked())
 		this.elem.innerHTML = text.toString();
+	else if(this.shown)
+		this.prev = text;
+}
 
-		this.elem.style.opacity = '1';
-		if(!this.hover){
-			this.timeoutId = window.setTimeout(this.hide.bind(this), this.delay);
-		}
+Tip.prototype.getText = function(){
+	return this.elem.innerHTML;
+}
 
-		this.prev = null;
-		this.mode = mode?mode:null;
-		this.shown = true;
+Tip.prototype.getMode = function(){
+	return this.mode;
+}
 
-		this.adjustPos();
-	}
-
-	Tip.prototype.title = function(text){
-		this.elem.title = text;
-	}
-
-	/*
-	 * Force the tip to hide even if the timer isn't over yet.
-	*/
-	Tip.prototype.forceHide = function(){
-		if(this.timeoutId){
-			window.clearTimeout(this.timeoutId); this.timeoutId=null;
-			this.hide();
-		}
-	}
-
-	/*
-	 * Update the tip text without renewing the timer.
-	 * Works best with `Tip.shown`, for regularly updating
-	 * very-time-sensitive data while the tip is shown to the user.
-	*/
-	Tip.prototype.updateText = function(text){
-		if(this.shown && !this.isClicked())
-			this.elem.innerHTML = text.toString();
-		else if(this.shown)
-			this.prev = text;
-	}
-
-	Tip.prototype.getText = function(){
-		return this.elem.innerHTML;
-	}
-
-	Tip.prototype.getMode = function(){
-		return this.mode;
-	}
-
-	Tip.prototype.isClicked = function(){
-		return this.prev != null;
-	}
+Tip.prototype.isClicked = function(){
+	return this.prev != null;
+}
