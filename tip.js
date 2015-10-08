@@ -9,6 +9,7 @@ Tip = function(id, delay){
 	self.mode  = null;
 	
 	self.timeoutId = null;
+	self.killTimeoutId = null;
 	
 	//Listeners:
 	self.elem.onmouseover = function(e){
@@ -45,16 +46,20 @@ Tip = function(id, delay){
 
 //Functions:
 Tip.prototype.getElement = function(id){
-	var exist = document.getElementById(id);
+	var exist = document.getElementById(id),
+		theElem;
+	
 	if(exist)
-		return exist;
+		theElem = exist;
 	else{
-		var newElem = document.createElement('div');
-		newElem.id = id;
-		newElem.dir = 'auto';
-		document.body.appendChild(newElem);
-		return newElem;
+		theElem = document.createElement('div');
+		theElem.id = id;
+		document.body.appendChild(theElem);
 	}
+	
+	theElem.dir = 'auto';
+	theElem.setAttribute('class', 'killed');
+	return theElem;
 }
 
 Tip.prototype.adjustPos = function(){
@@ -66,7 +71,13 @@ Tip.prototype.hide = function(){
 	this.elem.setAttribute('class','fadeout');
 	this.elem.style.opacity = '0';
 	this.mode = null;
-	this.shown = false;
+	
+	var duration = this.getCurrentAnimationDuration();
+	this.killTimeoutId =  window.setTimeout(function(){
+		this.shown = false;
+		this.elem.setAttribute('class', 'killed');
+		this.elem.innerHTML = '';
+	}.bind(this), duration);
 }
 
 /*
@@ -90,6 +101,7 @@ Tip.prototype.echo = function(text, mode){
 	}
 
 	window.clearTimeout(this.timeoutId); this.timeoutId=null;
+	window.clearTimeout(this.killTimeoutId); this.killTimeoutId=null;
 	this.elem.innerHTML = text.toString();
 
 	this.elem.style.opacity = '1';
