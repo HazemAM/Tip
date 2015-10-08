@@ -81,9 +81,11 @@ Tip.prototype.echo = function(text, mode){
 		this.elem.setAttribute('class','in-move');
 		if(text==this.elem.innerHTML){
 			this.elem.setAttribute('class','in-again');
+			var duration = this.getCurrentAnimationDuration();
+			
 			window.setTimeout(function(){
 				this.elem.classList.remove('in-again');
-			}.bind(this), 200);
+			}.bind(this), duration);
 		}
 	}
 
@@ -134,6 +136,11 @@ Tip.prototype.getText = function(){
 
 Tip.prototype.getMode = function(){
 	return this.mode;
+}
+
+Tip.prototype.getCurrentAnimationDuration = function(){
+	var dur = window.getComputedStyle(this.elem).getPropertyValue('animation-duration');
+	return dur = parseFloat(dur) * 1000; //Converting from '0.2s' as string, to 2000 as number.
 }
 
 Tip.prototype.isClicked = function(){
