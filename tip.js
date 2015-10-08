@@ -70,11 +70,11 @@ Tip.prototype.adjustPos = function(){
 Tip.prototype.hide = function(){
 	this.elem.setAttribute('class','fadeout');
 	this.elem.style.opacity = '0';
-	this.mode = null;
 	
 	var duration = this.getCurrentAnimationDuration();
 	this.killTimeoutId =  window.setTimeout(function(){
 		this.shown = false;
+		this.mode = null;
 		this.elem.setAttribute('class', 'killed');
 		this.elem.innerHTML = '';
 	}.bind(this), duration);
