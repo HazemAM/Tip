@@ -4,7 +4,7 @@ Tip = function(id, delay){
 	self.elem  = self.getElement(id ? id : 'tip');
 	self.hover = false;
 	self.delay = delay || parseInt(self.elem.dataset.duration) || 3500;
-	self.shown = false; //The tip is currently shown to the user.
+	self.shown = false; //The tip is currently shown to the user, or animating to disappear.
 	self.prev  = null;  //Holding the original tip string while clicked.
 	self.mode  = null;
 	
@@ -85,9 +85,8 @@ Tip.prototype.hide = function(){
  * the previous tip if any.
 */
 Tip.prototype.echo = function(text, mode){
-	if(this.elem.style.opacity == '0' || this.elem.style.opacity == ''){
+	if(this.isHiddenOrKilled())
 		this.elem.setAttribute('class','fadein');
-	}
 	else{
 		this.elem.setAttribute('class','in-move');
 		if(text == this.elem.innerHTML){
@@ -115,16 +114,13 @@ Tip.prototype.echo = function(text, mode){
 	this.adjustPos();
 }
 
-Tip.prototype.title = function(text){
-	this.elem.title = text;
-}
-
 /*
  * Force the tip to hide even if the timer isn't over yet.
 */
 Tip.prototype.forceHide = function(){
 	if(this.hideTimeoutId){
 		window.clearTimeout(this.hideTimeoutId); this.hideTimeoutId=null;
+		window.clearTimeout(this.killTimeoutId); this.killTimeoutId=null;
 		this.hide();
 	}
 }
@@ -156,4 +152,9 @@ Tip.prototype.getCurrentAnimationDuration = function(){
 
 Tip.prototype.isClicked = function(){
 	return this.prev != null;
+}
+
+Tip.prototype.isHiddenOrKilled = function(){
+	var opacity = this.elem.style.opacity;
+	return opacity == '0' || opacity == '';
 }
