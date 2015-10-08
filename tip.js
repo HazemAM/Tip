@@ -58,8 +58,8 @@ Tip.prototype.getElement = function(id){
 }
 
 Tip.prototype.adjustPos = function(){
-	var selfWidth = (window.innerWidth/2) - (this.elem.offsetWidth/2);
-	this.elem.style.left = selfWidth.toString() + 'px';
+	var leftValue = (window.innerWidth/2) - (this.elem.offsetWidth/2);
+	this.elem.style.left = leftValue.toString() + 'px';
 }
 
 Tip.prototype.hide = function(){
@@ -74,12 +74,12 @@ Tip.prototype.hide = function(){
  * the previous tip if any.
 */
 Tip.prototype.echo = function(text, mode){
-	if(this.elem.style.opacity=='0' || this.elem.style.opacity==''){
+	if(this.elem.style.opacity == '0' || this.elem.style.opacity == ''){
 		this.elem.setAttribute('class','fadein');
 	}
 	else{
 		this.elem.setAttribute('class','in-move');
-		if(text==this.elem.innerHTML){
+		if(text == this.elem.innerHTML){
 			this.elem.setAttribute('class','in-again');
 			var duration = this.getCurrentAnimationDuration();
 			
@@ -93,12 +93,11 @@ Tip.prototype.echo = function(text, mode){
 	this.elem.innerHTML = text.toString();
 
 	this.elem.style.opacity = '1';
-	if(!this.hover){
+	if(!this.hover)
 		this.timeoutId = window.setTimeout(this.hide.bind(this), this.delay);
-	}
 
 	this.prev = null;
-	this.mode = mode?mode:null;
+	this.mode = mode;
 	this.shown = true;
 
 	this.adjustPos();
