@@ -8,18 +8,18 @@ Tip = function(id, delay){
 	self.prev  = null;  //Holding the original tip string while clicked.
 	self.mode  = null;
 	
-	self.timeoutId = null;
+	self.hideTimeoutId = null;
 	self.killTimeoutId = null;
 	
 	//Listeners:
 	self.elem.onmouseover = function(e){
 		self.hover = true;
-		window.clearTimeout(self.timeoutId); self.timeoutId=null;
+		window.clearTimeout(self.hideTimeoutId); self.hideTimeoutId=null;
 	};
 
 	self.elem.onmouseout = function(e){
 		self.hover = false;
-		self.timeoutId = window.setTimeout(self.hide.bind(self), self.delay/2);
+		self.hideTimeoutId = window.setTimeout(self.hide.bind(self), self.delay/2);
 
 		if(self.isClicked()){	//Tip easter
 			self.elem.innerHTML = self.prev;
@@ -100,13 +100,13 @@ Tip.prototype.echo = function(text, mode){
 		}
 	}
 
-	window.clearTimeout(this.timeoutId); this.timeoutId=null;
+	window.clearTimeout(this.hideTimeoutId); this.hideTimeoutId=null;
 	window.clearTimeout(this.killTimeoutId); this.killTimeoutId=null;
 	this.elem.innerHTML = text.toString();
 
 	this.elem.style.opacity = '1';
 	if(!this.hover)
-		this.timeoutId = window.setTimeout(this.hide.bind(this), this.delay);
+		this.hideTimeoutId = window.setTimeout(this.hide.bind(this), this.delay);
 
 	this.prev = null;
 	this.mode = mode;
@@ -123,8 +123,8 @@ Tip.prototype.title = function(text){
  * Force the tip to hide even if the timer isn't over yet.
 */
 Tip.prototype.forceHide = function(){
-	if(this.timeoutId){
-		window.clearTimeout(this.timeoutId); this.timeoutId=null;
+	if(this.hideTimeoutId){
+		window.clearTimeout(this.hideTimeoutId); this.hideTimeoutId=null;
 		this.hide();
 	}
 }
