@@ -4,7 +4,7 @@ Tip = function(id, delay){
 	self.elem  = self.getElement(id ? id : 'tip');
 	self.hover = false;
 	self.delay = delay || parseInt(self.elem.dataset.duration) || 3500;
-	self.shown = false; //The tip is currently shown to the user, or animating to disappear.
+	self.visible = false; //The tip is currently visible to the user, or animating to disappear.
 	self.prev  = null;  //Holding the original tip string while clicked.
 	self.mode  = null;
 	
@@ -68,12 +68,12 @@ Tip.prototype.adjustPos = function(){
 }
 
 Tip.prototype.hide = function(){
-	this.elem.setAttribute('class','fadeout');
+	this.elem.setAttribute('class','hidden');
 	this.elem.style.opacity = '0';
 	
 	var duration = this.getCurrentAnimationDuration();
 	this.killTimeoutId =  window.setTimeout(function(){
-		this.shown = false;
+		this.visible = false;
 		this.mode = null;
 		this.elem.setAttribute('class', 'killed');
 		this.elem.innerHTML = '';
@@ -86,7 +86,7 @@ Tip.prototype.hide = function(){
 */
 Tip.prototype.echo = function(text, mode){
 	if(this.isHiddenOrKilled())
-		this.elem.setAttribute('class','fadein');
+		this.elem.setAttribute('class','shown');
 	else{
 		this.elem.setAttribute('class','in-move');
 		if(text == this.elem.innerHTML){
@@ -109,7 +109,7 @@ Tip.prototype.echo = function(text, mode){
 
 	this.prev = null;
 	this.mode = mode;
-	this.shown = true;
+	this.visible = true;
 
 	this.adjustPos();
 }
@@ -126,14 +126,14 @@ Tip.prototype.forceHide = function(){
 }
 
 /*
- * Update the tip text without renewing the timer.
- * Works best with `Tip.shown`, for regularly updating
- * very-time-sensitive data while the tip is shown to the user.
+ * Updates the tip text without renewing the timer.
+ * Works best with `Tip.visible`, for regularly updating
+ * very-time-sensitive data while the tip is visible to the user.
 */
 Tip.prototype.updateText = function(text){
-	if(this.shown && !this.isClicked())
+	if(this.visible && !this.isClicked())
 		this.elem.innerHTML = text.toString();
-	else if(this.shown)
+	else if(this.visible)
 		this.prev = text;
 }
 
@@ -155,6 +155,6 @@ Tip.prototype.isClicked = function(){
 }
 
 Tip.prototype.isHiddenOrKilled = function(){
-	var opacity = this.elem.style.opacity;
-	return opacity == '0' || opacity == '';
+	return this.elem.classList.contains('hidden')
+		|| this.elem.classList.contains('killed');
 }
