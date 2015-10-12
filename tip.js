@@ -39,7 +39,8 @@ Tip = function(id, delay){
 	};
 
 	window.addEventListener('resize', function(e){
-		self.elem.setAttribute('class','');
+		//Stopping any in-move animations/transitions:
+		self.elem.classList.remove('in-move');
 		self.adjustPos();
 	});
 }
