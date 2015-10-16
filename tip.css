@@ -12,6 +12,8 @@
 	position: absolute;
 	bottom: 75px;
 	
+	cursor: default;
+	
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -37,7 +39,7 @@
 }
 
 #tip:active{
-	bottom: -1px;
+	transform: translateY(1px);
 	box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 	color: rgba(0,0,0,0.5);
 	background: rgb(255,255,255);
