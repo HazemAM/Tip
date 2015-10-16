@@ -13,11 +13,15 @@ Tip = function(id, delay){
 	
 	//Listeners:
 	self.elem.onmouseover = function(e){
+		if(self.isHiddenOrKilled()) return;
+		
 		self.hover = true;
 		window.clearTimeout(self.hideTimeoutId); self.hideTimeoutId=null;
 	};
 
 	self.elem.onmouseout = function(e){
+		if(self.isHiddenOrKilled()) return;
+		
 		self.hover = false;
 		self.hideTimeoutId = window.setTimeout(self.hide.bind(self), self.delay/2);
 
