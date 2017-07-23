@@ -140,6 +140,8 @@ Tip.prototype.updateText = function(text){
 		this.elem.innerHTML = text.toString();
 	else if(this.visible)
 		this.prev = text;
+	
+	this.adjustPos();
 }
 
 Tip.prototype.getText = function(){
