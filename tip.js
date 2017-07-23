@@ -89,12 +89,12 @@ Tip.prototype.hide = function(){
  * The main function. Shows a new tip to the user, and overrides
  * the previous tip if any.
 */
-Tip.prototype.echo = function(text, mode){
+Tip.prototype.echo = function(text, mode, animateInAgain){
 	if(this.isHiddenOrKilled())
 		this.elem.setAttribute('class','shown');
 	else{
 		this.elem.setAttribute('class','in-move');
-		if(text == this.elem.innerHTML){
+		if(!(animateInAgain === false) && text == this.elem.innerHTML){
 			this.elem.setAttribute('class','in-again');
 			var duration = this.getCurrentAnimationDuration();
 			
