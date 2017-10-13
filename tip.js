@@ -151,6 +151,11 @@ Tip.prototype.getMode = function(){
 	return this.mode;
 }
 
+/*
+ * Returns the animation duration for the current class list
+ * of the tip element. If there are multiple animations, it
+ * returns the duration for the first one.
+*/
 Tip.prototype.getCurrentAnimationDuration = function(){
 	var dur = window.getComputedStyle(this.elem).getPropertyValue('animation-duration');
 	return dur = parseFloat(dur) * 1000; //Converting from '0.2s' as string, to 2000 as number.
