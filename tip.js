@@ -62,7 +62,6 @@ Tip.prototype.getElement = function(id){
 		document.body.appendChild(theElem);
 	}
 	
-	theElem.dir = 'auto';
 	theElem.setAttribute('class', 'killed');
 	return theElem;
 }
