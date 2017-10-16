@@ -170,6 +170,10 @@ Tip.prototype.getMode = function(){
 	return this.mode;
 }
 
+Tip.prototype.isVisible = function(){
+	return this.visible;
+}
+
 /*
  * Returns the animation duration for the current class list
  * of the tip element. If there are multiple animations, it
