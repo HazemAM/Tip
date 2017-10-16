@@ -25,7 +25,7 @@ The `style.css` file only contains barebones necessary styling. So you *must* ad
 
 ## Usage
 
-Create an object in your script, then use `echo` to send messages to the user:
+Create an object in your script, then use [`Tip.echo()`](#tipprototypeechotext-mode-animateinagain) to send messages to the user:
 
 ````js
 var tip = new Tip();
