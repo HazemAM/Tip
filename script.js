@@ -22,8 +22,8 @@ Tip = function(id, options){
 		
 		self.hover = true;
 
-		self.hideTimeoutId = null;
 		window.clearTimeout(self.hideTimeoutId);
+		self.hideTimeoutId = null;
 	};
 
 	self.elem.onmouseout = function(e){
@@ -114,11 +114,11 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 		}
 	}
 
-	this.hideTimeoutId = null;
 	window.clearTimeout(this.hideTimeoutId);
+	this.hideTimeoutId = null;
 
-	this.killTimeoutId = null;
 	window.clearTimeout(this.killTimeoutId);
+	this.killTimeoutId = null;
 
 	this.elem.innerHTML = text.toString();
 	this.elem.style.opacity = '1';
@@ -138,11 +138,11 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 */
 Tip.prototype.forceHide = function(){
 	if(this.hideTimeoutId){
-		this.hideTimeoutId = null;
 		window.clearTimeout(this.hideTimeoutId);
+		this.hideTimeoutId = null;
 
-		this.killTimeoutId = null;
 		window.clearTimeout(this.killTimeoutId);
+		this.killTimeoutId = null;
 
 		this.hide();
 	}
