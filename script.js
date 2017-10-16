@@ -1,9 +1,12 @@
-Tip = function(id, delay){
+Tip = function(id, options){
 	var self = this;
+
+	options = options || {};
 	
 	self.elem  = self.getElement(id ? id : 'tip');
+	self.delay = options.delay || parseInt(self.elem.dataset.duration) || 3500;
+
 	self.hover = false;
-	self.delay = delay || parseInt(self.elem.dataset.duration) || 3500;
 	self.visible = false; //The tip is currently visible to the user, or animating to disappear.
 	self.prev  = null;  //Holding the original tip string while clicked.
 	self.mode  = null;
@@ -115,7 +118,7 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 
 	this.elem.innerHTML = text.toString();
 	this.elem.style.opacity = '1';
-	
+
 	if(!this.hover)
 		this.hideTimeoutId = window.setTimeout(this.hide.bind(this), this.delay);
 
