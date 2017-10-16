@@ -13,19 +13,23 @@ Tip = function(id, delay){
 	
 	//Listeners:
 	self.elem.onmouseover = function(e){
-		if(self.isHiddenOrKilled()) return;
+		if(self.isHiddenOrKilled())
+			return;
 		
 		self.hover = true;
-		window.clearTimeout(self.hideTimeoutId); self.hideTimeoutId=null;
+
+		self.hideTimeoutId = null;
+		window.clearTimeout(self.hideTimeoutId);
 	};
 
 	self.elem.onmouseout = function(e){
-		if(self.isHiddenOrKilled()) return;
+		if(self.isHiddenOrKilled())
+			return;
 		
 		self.hover = false;
 		self.hideTimeoutId = window.setTimeout(self.hide.bind(self), self.delay/2);
 
-		if(self.isClicked()){	//Tip easter
+		if(self.isClicked()){
 			self.elem.innerHTML = self.prev;
 			self.elem.setAttribute('class','in-move');
 			self.adjustPos();
@@ -103,11 +107,15 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 		}
 	}
 
-	window.clearTimeout(this.hideTimeoutId); this.hideTimeoutId=null;
-	window.clearTimeout(this.killTimeoutId); this.killTimeoutId=null;
-	this.elem.innerHTML = text.toString();
+	this.hideTimeoutId = null;
+	window.clearTimeout(this.hideTimeoutId);
 
+	this.killTimeoutId = null;
+	window.clearTimeout(this.killTimeoutId);
+
+	this.elem.innerHTML = text.toString();
 	this.elem.style.opacity = '1';
+	
 	if(!this.hover)
 		this.hideTimeoutId = window.setTimeout(this.hide.bind(this), this.delay);
 
@@ -123,8 +131,12 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 */
 Tip.prototype.forceHide = function(){
 	if(this.hideTimeoutId){
-		window.clearTimeout(this.hideTimeoutId); this.hideTimeoutId=null;
-		window.clearTimeout(this.killTimeoutId); this.killTimeoutId=null;
+		this.hideTimeoutId = null;
+		window.clearTimeout(this.hideTimeoutId);
+
+		this.killTimeoutId = null;
+		window.clearTimeout(this.killTimeoutId);
+
 		this.hide();
 	}
 }
@@ -158,7 +170,7 @@ Tip.prototype.getMode = function(){
 */
 Tip.prototype.getCurrentAnimationDuration = function(){
 	var dur = window.getComputedStyle(this.elem).getPropertyValue('animation-duration');
-	return dur = parseFloat(dur) * 1000; //Converting from '0.2s' as string, to 2000 as number.
+	return dur = parseFloat(dur) * 1000; //'0.2s' (string) => 2000 (number).
 }
 
 Tip.prototype.isClicked = function(){
