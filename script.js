@@ -1,3 +1,9 @@
+/* 
+ * (c) Copyright 2017 Hazem AbuMostafa.
+ * This project is subject to the Apache License, Version 2.0
+ * <http://apache.org/licenses/LICENSE-2.0.html>.
+ */
+
 Tip = function(options){
 	var self = this;
 
@@ -96,7 +102,7 @@ Tip.prototype.hide = function(){
 }
 
 /*
- * The main function. Shows a new tip to the user, and overrides
+ * The main method. Shows a new tip to the user, and overrides
  * the previous tip if any.
 */
 Tip.prototype.echo = function(text, mode, animateInAgain){
@@ -150,7 +156,7 @@ Tip.prototype.forceHide = function(){
 
 /*
  * Updates the tip text without renewing the timer.
- * Works best with `Tip.visible`, for regularly updating
+ * Works best with `Tip.isVisible()`, for regularly updating
  * very-time-sensitive data while the tip is visible to the user.
 */
 Tip.prototype.updateText = function(text){
