@@ -1,37 +1,35 @@
 #tip{
-	/*display*/
+	/* Display: */
 	width: auto;
 	height: auto;
 	max-width: 50%;
 	
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 3px;
-	padding-bottom: 5px;
+	padding: 5px 10px;
 	
 	position: absolute;
-	bottom: 75px;
+	bottom: 7vh;
 	
 	cursor: default;
 	
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	user-select: none;
 	
-	/*multilines*/
+	/* Multilines: */
 	word-break: break-all;
 	text-align: left;
 	
-	/*text*/
-	font-size: 12px;
+	/* Text: */
+	font-size: 0.75em;
 	font-family: 'Segoe UI', 'Tahoma', sans-serif;
 	color: rgba(0,0,0,0.80);
 	
-	/*look*/
+	/* Look: */
 	border-radius: 15px;
 	background: rgba(255,255,255,0.85);
 	box-shadow: 0 2px 0px rgba(0,0,0,0.25),
-				0 5px 12px rgba(0,0,0,0.2);
+	            0 5px 12px rgba(0,0,0,0.2);
 }
 
 #tip:hover{
@@ -45,42 +43,49 @@
 	background: rgb(255,255,255);
 }
 
-/*ANIMATIONS*/
+/* ANIMATIONS: */
 #tip.hidden{
-	-webkit-animation: 0.75s fadeout alternate cubic-bezier(0.4,0,0.2,1);
+	animation: 0.75s fadeout alternate cubic-bezier(0.4,0,0.2,1);
 }
 
 #tip.shown{
-	-webkit-animation: 0.2s fadein alternate cubic-bezier(0.4,0,0.2,1);
+	animation: 0.2s fadein alternate cubic-bezier(0.4,0,0.2,1);
 }
 
 #tip.in-move{
-	transition: opacity 0.25s, left 0.2s;
+	transition: opacity 0.25s,
+	            left 0.2s;
 }
 
 #tip.in-again{
-	-webkit-animation: 0.2s again alternate cubic-bezier(0.4,0,0.2,1);
+	animation: 0.2s again alternate cubic-bezier(0.4,0,0.2,1);
 }
 
 #tip.killed{
 	display: none;
 }
 
-@-webkit-keyframes fadein{
-	0%	 { opacity: 0; transform: scaleX(0.8); color: rgba(0,0,0,0); }
-	50%  { opacity: 1; color: rgba(0,0,0,0); }
-	100% {  }
+@keyframes fadein{
+	0%{
+		opacity: 0;
+		transform: scaleX(0.8);
+		color: rgba(0,0,0,0);
+	}
+
+	50%{
+		opacity: 1;
+		color: rgba(0,0,0,0);
+	}
 }
 
-@-webkit-keyframes fadeout{
+@keyframes fadeout{
 	0%	 { opacity: 1; }
 	50%  { transform: translateY(2px); }
 	75%  { box-shadow: none; }
 	100% { opacity: 0; }
 }
 
-@-webkit-keyframes again{
-	0%	 {	}
+@keyframes again{
 	25%  { transform: translateY(-3px); }
 	50%  { transform: translateY(3px); }
 	75%  { transform: translateY(-2px); }
