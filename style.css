@@ -1,16 +1,15 @@
 #tip{
 	/* Display: */
-	width: auto;
-	height: auto;
-	max-width: 50%;
-	
+	max-width: 50vw;
 	padding: 5px 10px;
 	
 	position: absolute;
 	bottom: 7vh;
 	
-	cursor: default;
+	font-size: 0.75em;
 	
+	cursor: default;
+
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -19,75 +18,13 @@
 	/* Multilines: */
 	word-break: break-all;
 	text-align: left;
-	
-	/* Text: */
-	font-size: 0.75em;
-	font-family: 'Segoe UI', 'Tahoma', sans-serif;
-	color: rgba(0,0,0,0.80);
-	
-	/* Look: */
-	border-radius: 15px;
-	background: rgba(255,255,255,0.85);
-	box-shadow: 0 2px 0px rgba(0,0,0,0.25),
-	            0 5px 12px rgba(0,0,0,0.2);
-}
 
-#tip:hover{
-	background: rgb(255,255,255);
-}
-
-#tip:active{
-	transform: translateY(1px);
-	box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-	color: rgba(0,0,0,0.5);
-	background: rgb(255,255,255);
-}
-
-/* ANIMATIONS: */
-#tip.hidden{
-	animation: 0.75s fadeout alternate cubic-bezier(0.4,0,0.2,1);
-}
-
-#tip.shown{
-	animation: 0.2s fadein alternate cubic-bezier(0.4,0,0.2,1);
-}
-
-#tip.in-move{
-	transition: opacity 0.25s,
-	            left 0.2s;
-}
-
-#tip.in-again{
-	animation: 0.2s again alternate cubic-bezier(0.4,0,0.2,1);
+	/* Basic styling: */
+	border-radius: 2px;
+	color: black;
+	background-color: white;
 }
 
 #tip.killed{
 	display: none;
-}
-
-@keyframes fadein{
-	0%{
-		opacity: 0;
-		transform: scaleX(0.8);
-		color: rgba(0,0,0,0);
-	}
-
-	50%{
-		opacity: 1;
-		color: rgba(0,0,0,0);
-	}
-}
-
-@keyframes fadeout{
-	0%	 { opacity: 1; }
-	50%  { transform: translateY(2px); }
-	75%  { box-shadow: none; }
-	100% { opacity: 0; }
-}
-
-@keyframes again{
-	25%  { transform: translateY(-3px); }
-	50%  { transform: translateY(3px); }
-	75%  { transform: translateY(-2px); }
-	100% { transform: translateY(0); }
 }
