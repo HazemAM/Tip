@@ -1,9 +1,9 @@
-Tip = function(id, options){
+Tip = function(options){
 	var self = this;
 
 	options = options || {};
 	
-	self.elem  = self.getElement(id ? id : 'tip');
+	self.elem  = self.getElement(options.id || 'tip');
 	self.delay = options.delay || parseInt(self.elem.dataset.duration) || 3500;
 	self.onClickMessage = options.onClickMessage || '';
 
