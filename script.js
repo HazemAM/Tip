@@ -5,6 +5,7 @@ Tip = function(id, options){
 	
 	self.elem  = self.getElement(id ? id : 'tip');
 	self.delay = options.delay || parseInt(self.elem.dataset.duration) || 3500;
+	self.onClickMessage = options.onClickMessage || '';
 
 	self.hover = false;
 	self.visible = false; //The tip is currently visible to the user, or animating to disappear.
@@ -40,14 +41,17 @@ Tip = function(id, options){
 		}
 	};
 
-	self.elem.onclick = function(e){
-		if(!self.isClicked()){	//easter thing
-			self.prev = self.elem.innerHTML;
-			self.elem.innerHTML = 'Tips tell you what is happening here';
-			self.elem.setAttribute('class','in-move');
-			self.adjustPos();
-		}
-	};
+	//Only add on-click listener when there's actually something to do:
+	if(self.onClickMessage){
+		self.elem.onclick = function(e){
+			if(!self.isClicked()){
+				self.prev = self.elem.innerHTML;
+				self.elem.innerHTML = self.onClickMessage;
+				self.elem.setAttribute('class','in-move');
+				self.adjustPos();
+			}
+		};
+	}
 
 	window.addEventListener('resize', function(e){
 		//Stopping any in-move animations/transitions:
