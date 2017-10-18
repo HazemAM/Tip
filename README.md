@@ -7,7 +7,13 @@
 
 1.  **Lite:** *Tip* is standalone with a total size of `< 6KB` (non-minified and non-gzipped).
 
-2.  **Highly-customizable:** You can customize a lot of special behaviors of *Tip* directly through CSS.
+2.  **Highly-customizable:** You can customize a lot of special behaviors of *Tip* directly through CSS (refer to [Styling guide](#styling-guide)).
+
+3.  **Interactive:** *Tip* was made to be convenient with user interaction:
+    
+    1. When the mouse poiner is moved over the tip, the timer will stop and the tip will be visible until the pointer is moved away. This is helpful in cases like when the user wants more time to read the tip.
+    
+    2. You can set a message to be displayed to the user whenever the tip is clicked, in case they're wondering what this is about.
 
 
 
@@ -102,10 +108,12 @@ Updates the tip text without renewing the timer. Works best with [`Tip.isVisible
 
 ### Getters
 
-1.  `Tip.prototype.getText()`
-2.  `Tip.prototype.getMode()`
-3.  `Tip.prototype.isVisible()`
-4.  `Tip.prototype.isHiddenOrKilled()`
+1.  `Tip.prototype.getText()`: Get the current message being displayed, if any.
+2.  `Tip.prototype.getMode()`: Get the mode of the current message being displayed, if any.
+3.  `Tip.prototype.isVisible()`: Check if the tip is currently visible *or animating to hide*.
+4.  `Tip.prototype.isHiddenOrKilled()`: Check if the tip is currently hidden *or animating to hide*.
+
+***Note*** that `tip.isVisible()` can be equal to `tip.isHiddenOrKilled()` at a given moment. This is intended to allow more customization. If you want to check if the tip is specifically `killed` (completely hidden to the user), you can use `!tip.isVisible()`. You can safely ignore `tip.isHiddenOrKilled()` unless you have a reason to use it.
 
 
 
@@ -113,7 +121,7 @@ Updates the tip text without renewing the timer. Works best with [`Tip.isVisible
 
 *Tip* currently supports customizing the following behaviors as CSS classes:
     
-1.  `shown`: Indicates that a new message was just sent to the user, and *Tip* should be visible now. You can use anything here, from a simple `opacity` transition to a complex animation, e.g.:
+1.  `shown`: Indicates that a new message was just sent to the user, and *Tip* should be visible now. The CSS property `opacity` is used here. You can use anything, from a simple `opacity` transition to a complex animation, e.g.:
 
     ```css
     #tip.shown {
@@ -121,7 +129,7 @@ Updates the tip text without renewing the timer. Works best with [`Tip.isVisible
     }
     ```
     
-2.  `hidden`: Indicates that the message timer has ended, and *Tip* should now be hidden. Again, you can use anything here. You can also combine both `shown` and `hidden` with one effect, e.g.:
+2.  `hidden`: Indicates that the message timer has ended, and *Tip* should now be hidden. Like `shown`, the CSS property `opacity` is used here. You can also use anything here. You can combine both `shown` and `hidden` with one effect, e.g.:
 
     ```css
     #tip.shown,
@@ -130,7 +138,7 @@ Updates the tip text without renewing the timer. Works best with [`Tip.isVisible
     }
     ```
 
-3.  `in-move`: This class indicaes that *Tip* is now adjusting its position to center itself horizontally on the screen. The CSS propery `left` is used here, so you can use a simple transition to animate the movement, e.g.:
+3.  `in-move`: Indicates that *Tip* is now adjusting its position to center itself horizontally on the screen. The CSS property `left` is used here, so you can use a simple transition to animate the movement, e.g.:
 
     ```css
     #tip.in-move {
@@ -138,7 +146,7 @@ Updates the tip text without renewing the timer. Works best with [`Tip.isVisible
     }
     ```
     
-4.  `in-again`: The message sent to the tip through `Tip.echo()` is the same message currently displayed. This is very useful for drawing the user's attention after, say, doing the same wrong action and expecting a result. You can add a simple animation here, e.g.:
+4.  `in-again`: Indicates that the message sent to the tip through [`Tip.echo()`](#tipprototypeechotext-mode-animateinagain) is the same message currently displayed. This is very useful for drawing the user's attention after, say, doing the same action and expecting a different result. You can add a simple animation here, e.g.:
 
     ```css
     #tip.in-again {
@@ -148,7 +156,7 @@ Updates the tip text without renewing the timer. Works best with [`Tip.isVisible
 
 ***Tip:*** Visit [Animate.css](https://daneden.github.io/animate.css/) for great animation ideas.
 
-***Note:*** *Tip* has the class `killed` after it finishes animating in its `hidden` state, so it's completely not visible. The styling for `killed` is included in the barebones stylesheet, and I recomment not styling it any further.
+***Note:*** *Tip* has the class `killed` after it finishes animating in its `hidden` state, so it's completely not visible. The styling for `killed` is included in the barebones stylesheet, and I recommend not styling it any further.
 
 
 
