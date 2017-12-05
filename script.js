@@ -110,7 +110,7 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 		this.elem.setAttribute('class','shown');
 	else{
 		this.elem.setAttribute('class','in-move');
-		if(!(animateInAgain === false) && text == this.elem.innerHTML){
+		if(animateInAgain !== false && text == this.elem.innerHTML){
 			this.elem.setAttribute('class','in-again');
 			var duration = this.getCurrentAnimationDuration();
 			
