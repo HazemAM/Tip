@@ -4,7 +4,7 @@
  * <http://apache.org/licenses/LICENSE-2.0.html>.
  */
 
-Tip = function(options){
+var Tip = function(options){
 	var self = this;
 
 	options = options || {};
@@ -64,7 +64,7 @@ Tip = function(options){
 		self.elem.classList.remove('in-move');
 		self.adjustPos();
 	});
-}
+};
 
 //Functions:
 Tip.prototype.getElement = function(id){
@@ -81,12 +81,12 @@ Tip.prototype.getElement = function(id){
 	
 	theElem.setAttribute('class', 'killed');
 	return theElem;
-}
+};
 
 Tip.prototype.adjustPos = function(){
 	var leftValue = (window.innerWidth/2) - (this.elem.offsetWidth/2);
 	this.elem.style.left = leftValue.toString() + 'px';
-}
+};
 
 Tip.prototype.hide = function(){
 	this.elem.setAttribute('class','hidden');
@@ -99,7 +99,7 @@ Tip.prototype.hide = function(){
 		this.elem.setAttribute('class', 'killed');
 		this.elem.innerHTML = '';
 	}.bind(this), duration);
-}
+};
 
 /*
  * The main method. Shows a new tip to the user, and overrides
@@ -137,7 +137,7 @@ Tip.prototype.echo = function(text, mode, animateInAgain){
 	this.visible = true;
 
 	this.adjustPos();
-}
+};
 
 /*
  * Force the tip to hide even if the timer isn't over yet.
@@ -152,7 +152,7 @@ Tip.prototype.forceHide = function(){
 
 		this.hide();
 	}
-}
+};
 
 /*
  * Updates the tip text without renewing the timer.
@@ -166,19 +166,19 @@ Tip.prototype.updateText = function(text){
 		this.prev = text;
 	
 	this.adjustPos();
-}
+};
 
 Tip.prototype.getText = function(){
 	return this.elem.innerHTML;
-}
+};
 
 Tip.prototype.getMode = function(){
 	return this.mode;
-}
+};
 
 Tip.prototype.isVisible = function(){
 	return this.visible;
-}
+};
 
 /*
  * Returns the animation duration for the current class list
@@ -187,14 +187,14 @@ Tip.prototype.isVisible = function(){
 */
 Tip.prototype.getCurrentAnimationDuration = function(){
 	var dur = window.getComputedStyle(this.elem).getPropertyValue('animation-duration');
-	return dur = parseFloat(dur) * 1000; //'0.2s' (string) => 2000 (number).
-}
+	return parseFloat(dur) * 1000; //'0.2s' (string) => 2000 (number).
+};
 
 Tip.prototype.isClicked = function(){
 	return this.prev != null;
-}
+};
 
 Tip.prototype.isHiddenOrKilled = function(){
-	return this.elem.classList.contains('hidden')
-		|| this.elem.classList.contains('killed');
-}
+	return this.elem.classList.contains('hidden') ||
+	       this.elem.classList.contains('killed');
+};
