@@ -198,3 +198,17 @@ Tip.prototype.isHiddenOrKilled = function(){
 	return this.elem.classList.contains('hidden') ||
 	       this.elem.classList.contains('killed');
 };
+
+
+/*
+ * Module export
+*/
+if(typeof module !== 'undefined' && typeof module.exports !== 'undefined'){
+	module.exports = Tip;
+} else if(typeof define === 'function' && define.amd){
+	define(function(){
+		return Tip;
+	});
+} else if(window){
+	window.Tip = Tip;
+}
