@@ -19,12 +19,16 @@
 
 ## Installation
 
-Add `script.js` and `style.css` in your HTML, e.g.:
+You can use it in one of two ways:
 
-````html
-<link rel="stylesheet" href="tip/style.css"/>
-<script src="tip/script.js"></script>
-````
+1. Add `script.js` and `style.css` in your HTML, e.g.:
+
+   ````html
+   <link rel="stylesheet" href="tip/style.css"/>
+   <script src="tip/script.js"></script>
+   ````
+   
+2. Or you can just add `script.js` and `style.css` to your project tree and then `require()` it as a module (e.g. `CommonJS`, `AMD`).
 
 The `style.css` file only contains barebones necessary styling. So you *must* add another file with your styling, using the [Styling guide](#styling-guide) section below.
 
